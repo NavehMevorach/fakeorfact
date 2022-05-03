@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .modal {
+    width: clamp(50%, 500px, 95%);
+    height: 300px;
+    margin: auto;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%),
+      0 4px 6px -4px rgb(0 0 0 / 10%);
+  }
+
+  .search-modal {
+    z-index: 1;
+    padding: 0 1rem;
+    width: clamp(50%, 500px, 95%);
+    height: 60px;
+    position: relative;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%),
+      0 4px 6px -4px rgb(0 0 0 / 10%);
+  }
+
+  .a {
+    background: #fff;
+  }
+  .a.active {
+    background: #000;
+  }
+}
