@@ -20,9 +20,28 @@ export default function Home({ posts }) {
   )
 }
 
-export async function getServerSideProps(context) {
-  const posts = await getPosts()
-  return {
-    props: posts,
+export const getServerSideProps = async (ctx) => {
+  try {
+    const cookies = nookies.get(ctx)
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token)
+
+    // the user is authenticated!
+    const { uid, email } = token
+
+    // FETCH STUFF HERE!! 🚀
+    const posts = await getPosts()
+
+    return {
+      props: {
+        message: `Your email is ${email} and your UID is ${uid}.`,
+        posts,
+      },
+    }
+  } catch (err) {
+    // ctx.res.writeHead(302, { Location: '/' })
+    // ctx.res.end()
+    // FETCH STUFF HERE!! 🚀
+    const posts = await getPosts()
+    return { props: posts }
   }
 }

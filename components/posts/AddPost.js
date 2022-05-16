@@ -1,20 +1,40 @@
 import { useState } from 'react'
-import Image from 'next/image'
+import { db } from '../../firebase'
+import { useAuth } from './../../auth/AuthContext'
 import { Avatar } from '@mui/material'
+import { serverTimestamp } from 'firebase/firestore'
 
-function AddPost({ user }) {
+function AddPost() {
+  const { user } = useAuth()
   const [isWritingPost, setIsWritingPost] = useState(false)
   function handleClick() {
     setIsWritingPost(!isWritingPost)
   }
+
+  function submitPost() {
+    // TODO: Run validationa
+
+    const docRef = doc(db, 'posts', post.id)
+    const postUpdated = { ...post, timestamp: serverTimestamp() }
+    updateDoc(docRef, postUpdated)
+
+    // Refresh Posts Context so the new post will appear
+
+    // Show a msg that post was created
+
+    // Change back to create Post
+    handleClick()
+  }
+
   return (
     <div className="flex justify-center items-center pb-5 px-10 lg:mt-0 mt-5 lg:space-x-3">
       <Avatar />
       {isWritingPost ? (
-        <div onClick={handleClick}>
+        <div className="flex">
           <div>
             <input placeholder="Enter Your Title" />
             <svg
+              onClick={handleClick}
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
               fill="none"

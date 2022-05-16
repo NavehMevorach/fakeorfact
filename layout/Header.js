@@ -4,15 +4,19 @@ import Image from 'next/image'
 import { Avatar } from '@mui/material'
 import Modal from '../components/modals/Modal'
 import { motion, AnimatePresence } from 'framer-motion'
+import { signInWithPopup } from 'firebase/auth'
+import { auth, provider } from '../firebase'
+import { useAuth } from './../auth/AuthContext'
 
-function Header({ isLoggedIn = false }) {
+function Header() {
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [signupModalOpen, setSignupModalOpen] = useState(false)
   const closeLogin = () => setLoginModalOpen(false)
   const openLogin = () => setLoginModalOpen(true)
   const closeSignup = () => setSignupModalOpen(false)
   const openSignup = () => setSignupModalOpen(true)
-
+  const { user } = useAuth()
+  console.log(user)
   // useEffect(() => {
   //   first
 
@@ -30,6 +34,17 @@ function Header({ isLoggedIn = false }) {
       openSignup()
     }
   }
+
+  function signup() {}
+
+  function login() {
+    signInWithPopup(auth, provider)
+  }
+
+  function logout() {
+    auth.signOut()
+  }
+
   return (
     <header className="w-full fixed items-center transition-all transform ease duration-200 h-16 z-50 border-b border-light-gray bg-white">
       <div className="relative transition-width ease-out duration-200 z-20 justify-center h-full flex mx-auto px-5 lg:px-3 xl:px-0 w-full max-w-6xl flex-center">
@@ -53,7 +68,7 @@ function Header({ isLoggedIn = false }) {
             </span>
           </div>
         </div>
-        {isLoggedIn ? (
+        {user ? (
           <div className="relative flex items-center justify-end flex-shrink-0 lg:w-80">
             <button className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium text-black transition duration-300 ease-out border text-xs rounded-full  mr-4 group">
               <span className="absolute flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
@@ -76,8 +91,8 @@ function Header({ isLoggedIn = false }) {
               </span>
               <span className="relative invisible">Post</span>
             </button>
-            <div className="cursor-pointer">
-              <Avatar src="/assets/img/avatar.png" />
+            <div onClick={logout} className="cursor-pointer">
+              <Avatar src={user.photoURL} />
             </div>
           </div>
         ) : (
@@ -116,31 +131,14 @@ function Header({ isLoggedIn = false }) {
         {loginModalOpen && (
           <Modal handleClose={closeLogin}>
             <div className="bg-white w-full h-full rounded-md flex flex-col justify-center items-center space-y-4">
-              <p className="text-gray">Login using your Twitter or Github ✌️</p>
+              <p className="text-gray">Login using your Google</p>
               <div className="flex flex-col justify-center items-center">
                 <button
+                  onClick={login}
                   type="button"
-                  class="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2">
+                  className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
                   <svg
-                    class="w-4 h-4 mr-2 -ml-1"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fab"
-                    data-icon="twitter"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512">
-                    <path
-                      fill="currentColor"
-                      d="M459.4 151.7c.325 4.548 .325 9.097 .325 13.65 0 138.7-105.6 298.6-298.6 298.6-59.45 0-114.7-17.22-161.1-47.11 8.447 .974 16.57 1.299 25.34 1.299 49.06 0 94.21-16.57 130.3-44.83-46.13-.975-84.79-31.19-98.11-72.77 6.498 .974 12.99 1.624 19.82 1.624 9.421 0 18.84-1.3 27.61-3.573-48.08-9.747-84.14-51.98-84.14-102.1v-1.299c13.97 7.797 30.21 12.67 47.43 13.32-28.26-18.84-46.78-51.01-46.78-87.39 0-19.49 5.197-37.36 14.29-52.95 51.65 63.67 129.3 105.3 216.4 109.8-1.624-7.797-2.599-15.92-2.599-24.04 0-57.83 46.78-104.9 104.9-104.9 30.21 0 57.5 12.67 76.67 33.14 23.72-4.548 46.46-13.32 66.6-25.34-7.798 24.37-24.37 44.83-46.13 57.83 21.12-2.273 41.58-8.122 60.43-16.24-14.29 20.79-32.16 39.31-52.63 54.25z"></path>
-                  </svg>
-                  Sign in with Twitter
-                </button>
-                <button
-                  type="button"
-                  class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
-                  <svg
-                    class="w-4 h-4 mr-2 -ml-1"
+                    className="w-4 h-4 mr-2 -ml-1"
                     aria-hidden="true"
                     focusable="false"
                     data-prefix="fab"
@@ -169,33 +167,14 @@ function Header({ isLoggedIn = false }) {
         {signupModalOpen && (
           <Modal handleClose={closeSignup}>
             <div className="bg-white w-full h-full rounded-md flex flex-col justify-center items-center space-y-4">
-              <p className="text-gray">
-                Signup using your Twitter or Github ✌️
-              </p>
+              <p className="text-gray">Signup using your Google</p>
               <div className="flex flex-col justify-center items-center">
                 <button
+                  onClick={login}
                   type="button"
-                  class="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2">
+                  className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
                   <svg
-                    class="w-4 h-4 mr-2 -ml-1"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fab"
-                    data-icon="twitter"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512">
-                    <path
-                      fill="currentColor"
-                      d="M459.4 151.7c.325 4.548 .325 9.097 .325 13.65 0 138.7-105.6 298.6-298.6 298.6-59.45 0-114.7-17.22-161.1-47.11 8.447 .974 16.57 1.299 25.34 1.299 49.06 0 94.21-16.57 130.3-44.83-46.13-.975-84.79-31.19-98.11-72.77 6.498 .974 12.99 1.624 19.82 1.624 9.421 0 18.84-1.3 27.61-3.573-48.08-9.747-84.14-51.98-84.14-102.1v-1.299c13.97 7.797 30.21 12.67 47.43 13.32-28.26-18.84-46.78-51.01-46.78-87.39 0-19.49 5.197-37.36 14.29-52.95 51.65 63.67 129.3 105.3 216.4 109.8-1.624-7.797-2.599-15.92-2.599-24.04 0-57.83 46.78-104.9 104.9-104.9 30.21 0 57.5 12.67 76.67 33.14 23.72-4.548 46.46-13.32 66.6-25.34-7.798 24.37-24.37 44.83-46.13 57.83 21.12-2.273 41.58-8.122 60.43-16.24-14.29 20.79-32.16 39.31-52.63 54.25z"></path>
-                  </svg>
-                  Signup with Twitter
-                </button>
-                <button
-                  type="button"
-                  class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
-                  <svg
-                    class="w-4 h-4 mr-2 -ml-1"
+                    className="w-4 h-4 mr-2 -ml-1"
                     aria-hidden="true"
                     focusable="false"
                     data-prefix="fab"
