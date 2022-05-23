@@ -1,11 +1,15 @@
 import { useState } from 'react'
-
-function BookmarkIcon({ clicked = false }) {
+import { updateUserBookmarks, removePostFromUserBookmarks } from './../../api'
+function BookmarkIcon({ clicked = false, uid, postId }) {
   const [isClicked, setIsClicked] = useState(clicked)
 
-  function handleClick(e) {
+  function handleClick() {
     // Send Data to DB
-
+    if (isClicked) {
+      removePostFromUserBookmarks(uid, postId)
+    } else {
+      updateUserBookmarks(uid, postId)
+    }
     // Update  State
     setIsClicked(!isClicked)
   }

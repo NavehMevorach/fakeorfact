@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 function RightSidebar() {
   const [isSortOpen, setIsSortOpen] = useState(true)
-  const [sortBy, setSortBy] = useState('Default')
+  const [sortBy, setSortBy] = useState('Latest')
 
   function changeSortBy(changeTo) {
     setSortBy(changeTo)
@@ -44,29 +44,6 @@ function RightSidebar() {
           isSortOpen ? 'flex h-full' : 'h-0 hidden'
         } bg-light-gray transition-all ease-out duration-200 py-4 px-5  flex-wrap text-xs text-gray/80 overflow-hidden`}>
         <button
-          onClick={() => changeSortBy('Default')}
-          className={`w-full flex items-center group px-4 py-2 ${
-            sortBy === 'Default' ? 'text-black' : 'hover:text-black'
-          } `}>
-          <svg
-            className={`${
-              sortBy === 'Default'
-                ? 'scale-100'
-                : 'group-hover:scale-100 scale-0'
-            } w-3.5 h-3.5  transition absolute left-2.5 ease-out duration-200  text-black ml-1`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span>Default</span>
-        </button>
-        <button
           onClick={() => changeSortBy('Latest')}
           className={`w-full flex items-center group px-4 py-2 ${
             sortBy === 'Latest' ? 'text-black' : 'hover:text-black'
@@ -90,34 +67,13 @@ function RightSidebar() {
           <span>Latest</span>
         </button>
         <button
-          onClick={() => changeSortBy('Tags')}
+          onClick={() => changeSortBy('Oldest')}
           className={`w-full flex items-center group px-4 py-2 ${
-            sortBy === 'Tags' ? 'text-black' : 'hover:text-black'
+            sortBy === 'Oldest' ? 'text-black' : 'hover:text-black'
           } `}>
           <svg
             className={`${
-              sortBy === 'Tags' ? 'scale-100' : 'group-hover:scale-100 scale-0'
-            } w-3.5 h-3.5  transition absolute left-2.5 ease-out duration-200  text-black ml-1`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span>Tags</span>
-        </button>
-        <button
-          onClick={() => changeSortBy('Following')}
-          className={`w-full flex items-center group px-4 py-2 ${
-            sortBy === 'Following' ? 'text-black' : 'hover:text-black'
-          } `}>
-          <svg
-            className={`${
-              sortBy === 'Following'
+              sortBy === 'Oldest'
                 ? 'scale-100'
                 : 'group-hover:scale-100 scale-0'
             } w-3.5 h-3.5  transition absolute left-2.5 ease-out duration-200  text-black ml-1`}
@@ -131,11 +87,9 @@ function RightSidebar() {
               strokeWidth="2"
               d="M5 13l4 4L19 7"></path>
           </svg>
-          <span>Following</span>
+          <span>Oldest</span>
         </button>
       </div>
-
-      <div>Tags</div>
       <div>Hot Questions</div>
       <div>Top Users</div>
     </div>

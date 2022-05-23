@@ -14,16 +14,19 @@ export function AuthProvider({ children }) {
     return auth.onIdTokenChanged(async (user) => {
       if (!user) {
         setUser(null)
-        nookies.set(undefined, 'token', '', { path: '/' })
+        nookies.set(undefined, 'token', '', {})
       } else {
         const token = await user.getIdToken()
         setUser(user)
-        nookies.set(undefined, 'token', token, { path: '/' })
+        nookies.set(undefined, 'token', token, {})
       }
     })
   }, [])
 
   // force refresh the token every 10 minutes
+
+  // FIXME - > Not working!! Need to be fixed
+
   useEffect(() => {
     const handle = setInterval(async () => {
       const user = firebaseClient.auth().currentUser

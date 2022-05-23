@@ -1,0 +1,4 @@
+TODO:
+
+1. Make all avatar link to user page
+2. Add an Image functionality

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import { getAuth } from 'firebase/auth'
-import { useAuth } from './auth/AuthContext'
+import { useAuth } from '../auth/AuthContext'
 
 const PostsContext = createContext({
   posts: null,

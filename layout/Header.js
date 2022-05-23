@@ -6,6 +6,7 @@ import Modal from '../components/modals/Modal'
 import { motion, AnimatePresence } from 'framer-motion'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase'
+import { addUser, checkIfDocExists } from '../api'
 import { useAuth } from './../auth/AuthContext'
 
 function Header() {
@@ -16,14 +17,6 @@ function Header() {
   const closeSignup = () => setSignupModalOpen(false)
   const openSignup = () => setSignupModalOpen(true)
   const { user } = useAuth()
-  console.log(user)
-  // useEffect(() => {
-  //   first
-
-  //   return () => {
-  //     second
-  //   }
-  // }, [third])
 
   function switchModals(action = 'closeLogin') {
     if (action === 'closeSignup') {
@@ -35,10 +28,16 @@ function Header() {
     }
   }
 
-  function signup() {}
-
-  function login() {
-    signInWithPopup(auth, provider)
+  async function login() {
+    const cred = await signInWithPopup(auth, provider)
+    const isExists = await checkIfDocExists('users', cred.user.uid)
+    if (!isExists) {
+      await addUser(cred)
+    } else {
+      console.log('user is already exists')
+    }
+    closeLogin()
+    closeSignup()
   }
 
   function logout() {

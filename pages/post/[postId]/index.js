@@ -24,7 +24,6 @@ function PostPage({ posts, comments }) {
     fact,
     isBookmarked,
   } = posts.posts[0]
-  console.log(comments)
   const [fakeAmount, setFakeAmount] = useState(20)
   const [factAmount, setFactAmount] = useState(30)
 
