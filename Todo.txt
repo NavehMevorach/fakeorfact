@@ -1,4 +1,8 @@
 TODO:
 
-1. Make all avatar link to user page
-2. Add an Image functionality
+1. Update UI after Voting
+2. Create Fakeometer logic
+3. Fix auth
+4. Infinte Scrolling
+5. Create Hot post
+6. Create Hot users

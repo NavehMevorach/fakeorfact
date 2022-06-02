@@ -1,22 +1,8 @@
 import { useState } from 'react'
 import { updateUserBookmarks, removePostFromUserBookmarks } from './../../api'
-function BookmarkIcon({ clicked = false, uid, postId }) {
-  const [isClicked, setIsClicked] = useState(clicked)
-
-  function handleClick() {
-    // Send Data to DB
-    if (isClicked) {
-      removePostFromUserBookmarks(uid, postId)
-    } else {
-      updateUserBookmarks(uid, postId)
-    }
-    // Update  State
-    setIsClicked(!isClicked)
-  }
-
+function BookmarkIcon({ clicked, uid, postId }) {
   return (
     <div
-      onClick={handleClick}
       className={`h-10 w-10 z-50 flex justify-center items-center group ease duration-100`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"

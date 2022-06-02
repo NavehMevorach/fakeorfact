@@ -2,19 +2,20 @@ import { useState } from 'react'
 import { useAuth } from './../../auth/AuthContext'
 import { Avatar } from '@mui/material'
 import SubmitPost from './SubmitPost'
-import { addPost, updateUserPosts } from './../../api'
-import { v4 } from 'uuid'
-import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
-import { storage } from './../../firebase'
-function AddPost() {
+import { addPost, addImageToPost } from './../../api'
+import { serverTimestamp } from '@firebase/firestore'
+
+function AddPost({ setCurrentPosts }) {
   const { user } = useAuth()
   const [isWritingPost, setIsWritingPost] = useState(false)
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
   const [postBody, setPostBody] = useState('')
   const [postImg, setPostImg] = useState(null)
+  const [postImgName, setPostImgName] = useState(null)
   const [err, setErr] = useState('')
   function handleClick() {
+    resetFields()
     setIsWritingPost(!isWritingPost)
   }
 
@@ -24,25 +25,33 @@ function AddPost() {
     setUrl('')
     setPostImg('')
     setErr('')
+    setPostImgName('')
     setIsWritingPost(false)
   }
 
-  async function handleImg() {
-    if (postImg === null) return null
-    const imageRef = ref(storage, `images/${postImg.name + v4()}`)
-    const res = await uploadBytes(imageRef, postBody)
-    const imgUrl = await getDownloadURL(res.ref)
-    return imgUrl
+  const runValidation = () => {
+    // 1. Check Title Exist and longer than 10 Chars
+
+    if (!title) {
+      return false
+    }
+    // 2. Check if Link is exist and valid url
+    const expression =
+      /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
+    const regex = new RegExp(expression)
+    if (url && url.match(regex)) {
+      return true
+    }
+    return false
   }
 
   async function submitPost(e) {
     e.preventDefault()
-    // TODO: Run validationa
-    // 1. Check Title Exist and longer than 10 Chars
-    // 2. Check if Link is exist and valid url
+    if (!runValidation()) {
+      setErr(true)
+      return
+    }
 
-    // Upload Img to DB
-    const imgUrl = await handleImg()
     // Create the post data object
     const post = {
       uid: user.uid,
@@ -51,17 +60,34 @@ function AddPost() {
       title,
       url,
       postBody,
-      postImg: imgUrl,
+      comments: [],
+      fake: [],
+      fact: [],
+      timestamp: serverTimestamp(),
     }
     const postId = await addPost(post)
-    if (postId) {
-      await updateUserPosts(user.uid, postId)
+    if (postId && postImg) {
+      // Upload Img to DB
+      const a = await addImageToPost(postId, postImg)
       alert('Post was submitted')
-      // TODO: Refresh Posts Context so the new post will appear
+      setCurrentPosts((prevState) =>
+        [{ postId, ...post, postImg: a }].concat(prevState)
+      )
     } else {
       alert("Post wasn't submitted")
     }
     resetFields()
+  }
+
+  function readImage(e) {
+    const reader = new FileReader()
+    if (e.target.files[0]) {
+      setPostImgName(e.target.files[0].name)
+      reader.readAsDataURL(e.target.files[0])
+    }
+    reader.onload = (readerEvent) => {
+      setPostImg(readerEvent.target.result)
+    }
   }
 
   return (
@@ -77,10 +103,11 @@ function AddPost() {
           postBody={postBody}
           setPostBody={setPostBody}
           postImg={postImg?.name}
-          setPostImg={setPostImg}
+          setPostImg={readImage}
           err={err}
           setErr={setErr}
           user={user}
+          postImgName={postImgName}
         />
       ) : (
         <>

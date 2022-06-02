@@ -1,11 +1,15 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import Link from 'next/link'
 import { Avatar } from '@mui/material'
 import { useAuth } from '../../auth/AuthContext'
 import CommentSubmitForm from './CommentSubmitForm'
 import { addComment } from './../../api'
+import { serverTimestamp } from '@firebase/firestore'
 
-function AddComment() {
+function AddComment({ setComments }) {
+  const router = useRouter()
   const { user } = useAuth()
   const [commentBody, setCommentBody] = useState('')
   const [commentImg, setCommentImg] = useState('')
@@ -28,15 +32,21 @@ function AddComment() {
     // TODO: Run Validations
 
     const comment = {
-      user: user.uid,
+      uid: user.uid,
+      userImg: user.photoURL,
+      username: user.displayName,
+      postId: router.query.postId,
       commentBody,
       commentImg,
       parent: null,
+      timestamp: serverTimestamp(),
     }
-    const res = await addComment(comment)
-    if (res) {
+    const commentId = await addComment(comment)
+    if (commentId) {
       alert('Comment was submitted')
-      // TODO -> Refresh Comments Context so the new post will appear
+      setComments((prevComments) =>
+        [{ commentId, ...comment }].concat(prevComments)
+      )
     } else {
       alert("Comment wasn't submitted")
     }

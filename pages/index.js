@@ -25,11 +25,11 @@ export const getServerSideProps = async (ctx) => {
     // get the user authenticattio data
     // const { uid, email } = token
 
-    let res = await getInitialPosts()
+    const res = await getInitialPosts()
     const posts = []
     res.forEach((el) => {
       const data = el.data()
-      data.timestamp = Math.floor(new Date(data.timestamp.seconds))
+      data.timestamp = data.timestamp.toDate().toDateString()
       posts.push(data)
     })
     return {
@@ -38,7 +38,6 @@ export const getServerSideProps = async (ctx) => {
       },
     }
   } catch (err) {
-    console.log(err)
     return {
       props: {
         posts: [],

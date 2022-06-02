@@ -9,7 +9,7 @@ function Bookmarks({ posts }) {
         <meta name="description" content="Fake or Fact" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Feed posts={posts} />
+      <Feed posts={posts} isUserPage={true} />
     </>
   )
 }
@@ -19,14 +19,10 @@ export const getServerSideProps = async (ctx) => {
   const {
     params: { userId },
   } = ctx
-  const res = await getUserBookmarks(userId)
-  const posts = []
-  res.forEach((el) => {
-    el.timestamp = Math.floor(new Date(el.timestamp.seconds))
-    posts.push(el)
+  const posts = await getUserBookmarks(userId)
+  posts.forEach((post) => {
+    post.timestamp = post.timestamp.toDate().toDateString()
   })
-  console.log(posts)
-  // Get Bookamarks
 
   return {
     props: {

@@ -14,6 +14,7 @@ function SubmitPost({
   err,
   setErr,
   user,
+  postImgName,
 }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
@@ -55,10 +56,7 @@ function SubmitPost({
         <div className="cursor-pointer">
           <input
             type="file"
-            onChange={(e) => {
-              console.log(e.target.files[0])
-              return setPostImg(e.target.files[0])
-            }}
+            onChange={setPostImg}
             name="img"
             className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
           />
@@ -75,11 +73,16 @@ function SubmitPost({
               className="cursor-pointer"></path>
           </svg>
         </div>
-        <div>{postImg}</div>
+        <div>{postImgName}</div>
       </div>
       <button className="flex mt-5 items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-black border border-gray-300 border-blue-600 rounded-md  focus:outline-none ">
         Submit
       </button>
+      <p className="text-left text-sm text-[#FF9494] font-mono mt-3">
+        {!err
+          ? ''
+          : 'Ooops... it seems there was an error please make sure your post have title and URL'}
+      </p>
     </form>
   )
 }

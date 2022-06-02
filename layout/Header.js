@@ -49,9 +49,9 @@ function Header() {
       <div className="relative transition-width ease-out duration-200 z-20 justify-center h-full flex mx-auto px-5 lg:px-3 xl:px-0 w-full max-w-6xl flex-center">
         <div className="relative flex items-center justify-start h-full lg:w-[135px] flex-shrink-0">
           <Link href="/">
-            <a className="relative w-7 h-7 overflow-hidden">
+            <a className="relative w-20 h-10 overflow-hidden">
               <Image
-                src="/assets/img/avatar.png"
+                src="/assets/img/logo.png"
                 layout="fill"
                 objectFit="contain"
               />

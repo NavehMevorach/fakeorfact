@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import nookies from 'nookies'
 import { getAuth } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const AuthContext = createContext({
   user: null,
@@ -23,19 +24,18 @@ export function AuthProvider({ children }) {
     })
   }, [])
 
+  // FIXME: - > Not working!! Need to be fixed
+
   // force refresh the token every 10 minutes
+  // useEffect(() => {
+  //   const handle = setInterval(async () => {
+  //     const user = firebaseClient.auth().currentUser
+  //     if (user) await user.getIdToken(true)
+  //   }, 10 * 60 * 1000)
 
-  // FIXME - > Not working!! Need to be fixed
-
-  useEffect(() => {
-    const handle = setInterval(async () => {
-      const user = firebaseClient.auth().currentUser
-      if (user) await user.getIdToken(true)
-    }, 10 * 60 * 1000)
-
-    // clean up setInterval
-    return () => clearInterval(handle)
-  }, [])
+  //   // clean up setInterval
+  //   return () => clearInterval(handle)
+  // }, [])
 
   return (
     <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>

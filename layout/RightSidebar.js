@@ -9,7 +9,7 @@ function RightSidebar() {
   }
 
   return (
-    <div className="lg:block hidden top-[75px] sticky max-h-screen overflow-y-scroll w-[500px] ml-4 my-4  border-x border-light-gray">
+    <div className="lg:block hidden top-[75px] sticky max-h-screen overflow-y-hidden w-[500px] ml-4 my-4  border-x border-light-gray">
       <div
         onClick={() => setIsSortOpen(!isSortOpen)}
         className="text-xs cursor-pointer py-4 px-5 justify-between flex items-center font-medium leading-6 text-gray-900 group">
