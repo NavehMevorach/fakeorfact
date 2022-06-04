@@ -8,8 +8,10 @@ import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase'
 import { addUser, checkIfDocExists } from '../api'
 import { useAuth } from './../auth/AuthContext'
+import { useRouter } from 'next/router'
 
 function Header() {
+  const router = useRouter()
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [signupModalOpen, setSignupModalOpen] = useState(false)
   const closeLogin = () => setLoginModalOpen(false)
@@ -42,6 +44,7 @@ function Header() {
 
   function logout() {
     auth.signOut()
+    router.push('/')
   }
 
   return (

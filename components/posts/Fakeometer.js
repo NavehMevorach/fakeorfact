@@ -1,33 +1,18 @@
-function Fakeometer({ fakeAmount = 150, factAmount = 50, isFinished = false }) {
+function Fakeometer({ fakeAmount, factAmount }) {
   return (
-    <div className="flex-1 w-full h-2 my-auto rounded-full">
-      {isFinished ? (
-        <div className={`h-full w-full rounded-full`}></div>
-      ) : (
-        <div
-          className={`${
-            fakeAmount === factAmount
-              ? 'fakeometer-tie'
-              : factAmount > fakeAmount
-              ? 'fakeometer-fact'
-              : 'fakeometer-fake'
-          } h-full w-full rounded-full`}></div>
-      )}
+    <div className="flex  flex-1 w-full h-2 my-auto rounded-full">
+      <div
+        className={`h-full fakeometer-fake bg-[#5a0d0d] rounded-tl-full rounded-bl-full`}></div>
+      <div
+        className={`h-full fakeometer-fact bg-[#a1dffe] rounded-tr-full rounded-br-full`}></div>
+
       <style jsx>
         {`
-          .fakeometer-tie {
-            background: linear-gradient(90deg, #ff0000 0%, #00acff 100%);
-          }
           .fakeometer-fact {
-            background: linear-gradient(90deg, #ff0000 0%, #00acff 100%);
+            width: ${(factAmount / (fakeAmount + factAmount)) * 100}%;
           }
-
           .fakeometer-fake {
-            background: linear-gradient(
-              90deg,
-              #ff0000 ${(fakeAmount / factAmount) * 10 + '%'},
-              #00acff 100%
-            );
+            width: ${(fakeAmount / (fakeAmount + factAmount)) * 100}%;
           }
         `}
       </style>

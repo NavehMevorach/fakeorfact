@@ -46,8 +46,8 @@ function Post({
         onClick={handlePostClick}
         className="w-full h-full realative z-10 cursor-pointer justify-between p-6 sm:p-8 sm:pt-12 duration-500 border-b border-light-gray hover:bg-light-gray ease bg-white space-y-3">
         <div className="flex space-x-3">
-          <Link href={`/user/${uid}/`}>
-            <a className="relative z-10">
+          <Link href={`/user/${uid}/`} className="relative z-50">
+            <a>
               <Avatar src={userImg} />
             </a>
           </Link>
@@ -55,7 +55,7 @@ function Post({
             <div className="flex flex-col space-y-2">
               <div className="flex w-full items-center justify-between">
                 <div className="flex space-x-1">
-                  <Link href="/">
+                  <Link href={`/user/${uid}/`} className="relative z-50">
                     <a className="text-sm font-medium text-text leading-none hover:underline ease">
                       {username}
                     </a>
@@ -92,7 +92,7 @@ function Post({
         </div>
         <div className="flex items-center justify-center pt-4 md:pl-0 ml-11 space-x-3">
           <div>{`${fake.length} Fake`}</div>
-          <Fakeometer fakeAmount={fake} factAmount={fact} />
+          <Fakeometer fakeAmount={fake.length} factAmount={fact.length} />
           <div>{`${fact.length} Fact`}</div>
         </div>
       </div>

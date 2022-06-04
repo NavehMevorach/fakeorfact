@@ -1,8 +1,4 @@
 TODO:
-
-1. Update UI after Voting
-2. Create Fakeometer logic
-3. Fix auth
-4. Infinte Scrolling
-5. Create Hot post
-6. Create Hot users
+1. Infinte Scrolling
+2. Create Hot post
+3. Create Hot users

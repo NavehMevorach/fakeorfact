@@ -1,8 +1,13 @@
 import { Avatar } from '@mui/material'
 import { useState } from 'react'
 import Feed from '../../../components/Feed'
-import { getUserPosts, getUser, updateUserVerify } from './../../../api'
-function User({ user, posts }) {
+import {
+  getUserPosts,
+  getUser,
+  updateUserVerify,
+  getUserComments,
+} from './../../../api'
+function User({ user, posts, comments }) {
   const [file, setFile] = useState()
   const [isVerified, setIsVerified] = useState(user.verified)
   async function handleFile(e) {
@@ -36,12 +41,12 @@ function User({ user, posts }) {
       </div>
       <div className="flex p-5 text-sm justify-start items-center border-b border-light-gray w-full">
         <p className="text-gray mr-3">
-          <span className="text-black font-bold">{posts.length}</span> Posts
+          <span className="text-black">{posts.length}</span> Posts
         </p>
         <p className="text-gray mr-3">
-          <span className="text-black font-bold">6</span> Comments
+          <span className="text-black">{comments.length}</span> Comments
         </p>
-        <p className="text-gray">{`Joined at ${user.joinedAt.slice(4)}`}</p>
+        <p className="text-gray">{`Joined at ${user.joinedAt.slice(4, 15)}`}</p>
         {isVerified ? (
           <p className="text-[#24a0ed] ml-auto">Verified</p>
         ) : (
@@ -70,16 +75,22 @@ export const getServerSideProps = async (ctx) => {
   } = ctx
   // Fetch User Data
   const user = await getUser(userId)
-  user.joinedAt = user.joinedAt.toDate().toDateString()
+  user.joinedAt = user.joinedAt.toDate().toString()
   // Fetch User Post
   const posts = await getUserPosts(userId)
   posts.forEach((post) => {
-    post.timestamp = post.timestamp.toDate().toDateString()
+    post.timestamp = post.timestamp.toDate().toString()
+  })
+
+  const comments = await getUserComments(userId)
+  comments.forEach((comment) => {
+    comment.timestamp = comment.timestamp.toDate().toString()
   })
   return {
     props: {
       user,
       posts,
+      comments,
     },
   }
 }

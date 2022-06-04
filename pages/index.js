@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import nookies from 'nookies'
 import Feed from '../components/Feed'
-import { getInitialPosts } from './../api'
+import { getInitialPosts, getFiveUsers } from './../api'
 // import { verifyIdToken } from '../firebaseAdmin'
 
-export default function Home({ posts }) {
+export default function Home({ posts, topUsers }) {
   return (
     <>
       <Head>
@@ -17,30 +17,35 @@ export default function Home({ posts }) {
   )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async () => {
   try {
-    // const cookies = nookies.get(ctx)
-    // const token = await verifyIdToken(cookies.token)
-
-    // get the user authenticattio data
-    // const { uid, email } = token
-
     const res = await getInitialPosts()
     const posts = []
     res.forEach((el) => {
       const data = el.data()
-      data.timestamp = data.timestamp.toDate().toDateString()
+      data.timestamp = data.timestamp.toDate().toString()
+      // data.timestamp = new Date(data.timestamp.seconds * 1000).toString()
       posts.push(data)
+    })
+
+    const topUsersSnapshot = await getFiveUsers()
+    const topUsers = []
+    topUsersSnapshot.forEach((el) => {
+      const userData = el.data()
+      userData.timestamp = userData.timestamp.toDate().toString()
+      topUsers.push(userData)
     })
     return {
       props: {
         posts,
+        topUsers,
       },
     }
   } catch (err) {
     return {
       props: {
         posts: [],
+        topUsers: [],
       },
     }
   }

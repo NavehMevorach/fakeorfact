@@ -90,8 +90,6 @@ function RightSidebar() {
           <span>Oldest</span>
         </button>
       </div>
-      <div>Hot Questions</div>
-      <div>Top Users</div>
     </div>
   )
 }

@@ -14,6 +14,7 @@ function AddPost({ setCurrentPosts }) {
   const [postImg, setPostImg] = useState(null)
   const [postImgName, setPostImgName] = useState(null)
   const [err, setErr] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   function handleClick() {
     resetFields()
     setIsWritingPost(!isWritingPost)
@@ -27,6 +28,7 @@ function AddPost({ setCurrentPosts }) {
     setErr('')
     setPostImgName('')
     setIsWritingPost(false)
+    setIsLoading(false)
   }
 
   const runValidation = () => {
@@ -52,6 +54,7 @@ function AddPost({ setCurrentPosts }) {
       return
     }
 
+    setIsLoading(true)
     // Create the post data object
     const post = {
       uid: user.uid,
@@ -66,13 +69,17 @@ function AddPost({ setCurrentPosts }) {
       timestamp: serverTimestamp(),
     }
     const postId = await addPost(post)
-    if (postId && postImg) {
-      // Upload Img to DB
-      const a = await addImageToPost(postId, postImg)
-      alert('Post was submitted')
-      setCurrentPosts((prevState) =>
-        [{ postId, ...post, postImg: a }].concat(prevState)
-      )
+    if (postId) {
+      if (postImg) {
+        // Upload Img to DB
+        const a = await addImageToPost(postId, postImg)
+        alert('Post was submitted')
+        setCurrentPosts((prevState) =>
+          [{ postId, ...post, postImg: a }].concat(prevState)
+        )
+      } else {
+        setCurrentPosts((prevState) => [{ postId, ...post }].concat(prevState))
+      }
     } else {
       alert("Post wasn't submitted")
     }
@@ -108,6 +115,7 @@ function AddPost({ setCurrentPosts }) {
           setErr={setErr}
           user={user}
           postImgName={postImgName}
+          isLoading={isLoading}
         />
       ) : (
         <>

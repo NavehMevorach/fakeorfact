@@ -116,11 +116,11 @@ export default PostPage
 export async function getServerSideProps(context) {
   const postId = context.params.postId
   const post = await getPost(postId)
-  post.timestamp = post.timestamp.toDate().toDateString()
+  post.timestamp = post.timestamp.toDate().toString()
   const commentsRes = await getPostComments(postId)
   const comments = []
   commentsRes.forEach((comment) => {
-    comment.timestamp = Math.floor(new Date(comment.timestamp.seconds))
+    comment.timestamp = comment.timestamp.toDate().toString()
     comments.push(comment)
   })
   return {

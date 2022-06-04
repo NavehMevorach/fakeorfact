@@ -19,11 +19,6 @@ import { getDownloadURL, ref, uploadString } from '@firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 
 // --- Read ---
-
-// export async function getTopUsers() {}
-
-// export async function getTopQuestions() {}
-
 export async function getPost(postID) {
   try {
     const docRef = doc(db, 'posts', postID)
@@ -37,6 +32,24 @@ export async function getPost(postID) {
   } catch {
     console.log('There was Err fetching the Post')
     return []
+  }
+}
+export async function getInitialPosts(sortBy = 'desc') {
+  try {
+    // Query the first page of docs
+    const postsFirstBatch = query(
+      collection(db, 'posts'),
+      orderBy('timestamp', sortBy),
+      limit(10)
+    )
+    const documentSnapshots = await getDocs(postsFirstBatch)
+
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1]
+    return documentSnapshots
+  } catch (err) {
+    console.log(err)
+    return false
   }
 }
 
@@ -56,18 +69,11 @@ export async function getNextPost(last, sortBy = 'desc') {
   }
 }
 
-export async function getInitialPosts(sortBy = 'desc') {
+export async function getFiveUsers() {
   try {
     // Query the first page of docs
-    const postsFirstBatch = query(
-      collection(db, 'posts'),
-      orderBy('timestamp', sortBy),
-      limit(5)
-    )
-    const documentSnapshots = await getDocs(postsFirstBatch)
-
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1]
+    const q = query(collection(db, 'users'), orderBy('timestamp'), limit(2))
+    const documentSnapshots = await getDocs(q)
     return documentSnapshots
   } catch (err) {
     console.log(err)
@@ -80,11 +86,17 @@ export async function getPostComments(postId) {
     const commentsRef = collection(db, 'comments')
     const q = query(commentsRef, where('postId', '==', postId))
     const querySnapshot = await getDocs(q)
-    const posts = []
+    const comments = []
     querySnapshot.forEach((doc) => {
-      posts.push(doc.data())
+      comments.push(doc.data())
     })
-    return posts
+    comments.sort(function (a, b) {
+      // ASC  -> a.length - b.length
+      // DESC -> b.length - a.length
+      return b.upvote.length - a.upvote.length
+    })
+
+    return comments
   } catch {
     console.log('Failed to Fetch Post Comments')
     return []
@@ -103,6 +115,22 @@ export async function getUserPosts(userId) {
     return posts
   } catch {
     console.log('Failed to Fetch User Posts')
+    return []
+  }
+}
+
+export async function getUserComments(userId) {
+  try {
+    const commentsRef = collection(db, 'comments')
+    const q = query(commentsRef, where('uid', '==', userId))
+    const querySnapshot = await getDocs(q)
+    const comments = []
+    querySnapshot.forEach((doc) => {
+      comments.push(doc.data())
+    })
+    return comments
+  } catch {
+    console.log('Failed to Fetch User Comments')
     return []
   }
 }
@@ -126,6 +154,16 @@ export async function getUser(userID) {
   const docRef = doc(db, 'users', userID)
   const docSnap = await getDoc(docRef)
 
+  if (docSnap.exists()) {
+    return { ...docSnap.data(), uid: docSnap.id }
+  } else {
+    return false
+  }
+}
+
+export async function getComment(commentID) {
+  const docRef = doc(db, 'comments', commentID)
+  const docSnap = await getDoc(docRef)
   if (docSnap.exists()) {
     return { ...docSnap.data(), uid: docSnap.id }
   } else {
@@ -285,6 +323,37 @@ export async function updateUserVerify(userId) {
     return true
   } catch {
     console.log('err with updatig verfied user')
+    return false
+  }
+}
+
+export async function upvoteComment(userId, commentId) {
+  try {
+    const docRef = doc(db, 'comments', commentId)
+    const docData = await getDoc(docRef)
+    if (docData.data().downvote.includes(userId)) {
+      await updateDoc(docRef, { downvote: arrayRemove(userId) })
+    }
+    await updateDoc(docRef, { upvote: arrayUnion(userId) })
+    return true
+  } catch (err) {
+    console.log(err)
+    console.log('err with updatig comment upvotes ')
+    return false
+  }
+}
+
+export async function downvoteComment(userId, commentId) {
+  try {
+    const docRef = doc(db, 'comments', commentId)
+    const docData = await getDoc(docRef)
+    if (docData.data().upvote.includes(userId)) {
+      await updateDoc(docRef, { upvote: arrayRemove(userId) })
+    }
+    await updateDoc(docRef, { downvote: arrayUnion(userId) })
+    return true
+  } catch {
+    console.log('err with updatig comment downvotes')
     return false
   }
 }

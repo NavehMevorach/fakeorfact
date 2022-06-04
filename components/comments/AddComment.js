@@ -38,6 +38,8 @@ function AddComment({ setComments }) {
       postId: router.query.postId,
       commentBody,
       commentImg,
+      upvote: [],
+      downvote: [],
       parent: null,
       timestamp: serverTimestamp(),
     }

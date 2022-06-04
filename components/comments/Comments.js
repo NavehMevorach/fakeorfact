@@ -1,7 +1,9 @@
+import { useAuth } from '../../auth/AuthContext'
 import AddComment from './AddComment'
 import Comment from './Comment'
 
 function Comments({ comments, setComments }) {
+  const { user } = useAuth()
   function getReplies(commentId) {
     return comments
       .filter((comments) => comments.parentId === commentId)
@@ -13,10 +15,11 @@ function Comments({ comments, setComments }) {
   return (
     <div className="relative w-full text-left">
       <h2 className="text-lg font-semibold mb-7">{`Comments ${'0'}`}</h2>
-      {/* Need to check if he is SIgnIn and only if he does to show him the AddComment */}
-      <div>
-        <AddComment setComments={setComments} />
-      </div>
+      {user && (
+        <div>
+          <AddComment setComments={setComments} />
+        </div>
+      )}
       <div>
         {/* TODO -> Only render root comments */}
         {comments.map((comment) => {

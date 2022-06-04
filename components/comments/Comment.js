@@ -1,6 +1,9 @@
 import { Avatar } from '@mui/material'
 import Moment from 'react-moment'
 import Link from 'next/link'
+import { upvoteComment, downvoteComment } from './../../api'
+import { useAuth } from '../../auth/AuthContext'
+import { useState } from 'react'
 
 function Comment({
   uid,
@@ -10,10 +13,49 @@ function Comment({
   commentBody,
   timestamp,
   replies,
+  commentId,
+  upvote,
+  downvote,
 }) {
+  const { user } = useAuth()
+  const [upvoteState, setUpvoteState] = useState(upvote)
+  const [downvoteState, setDownvoteState] = useState(downvote)
+
   async function handleEdit() {}
 
   async function handleDelete() {}
+
+  async function handleUpvote() {
+    if (user) {
+      const id = user.uid
+      if (!upvoteState.includes(id)) {
+        const res = await upvoteComment(id, commentId)
+        if (res) {
+          setUpvoteState((prevState) => prevState.concat(id))
+          if (downvoteState.includes(id))
+            setDownvoteState((prevState) =>
+              prevState.filter((userId) => userId !== id)
+            )
+        }
+      }
+    }
+  }
+
+  async function handleDownvote() {
+    if (user) {
+      const id = user.uid
+      if (!downvoteState.includes(id)) {
+        const res = await downvoteComment(id, commentId)
+        if (res) {
+          setDownvoteState((prevState) => [id, ...prevState])
+          if (upvoteState.includes(id))
+            setUpvoteState((prevState) =>
+              prevState.filter((userId) => userId !== id)
+            )
+        }
+      }
+    }
+  }
   return (
     <div className="mb-5">
       <div className="flex">
@@ -43,6 +85,48 @@ function Comment({
               Delete
             </span>
           </div>
+        </div>
+        <div className="flex flex-col justify-center items-center ml-3">
+          <button
+            onClick={handleUpvote}
+            className={`${
+              upvoteState.includes(user?.uid)
+                ? 'text-[#000] font-bold'
+                : 'hover:text-[#000] hover:font-bold ease-linear duration-100 text-gray'
+            }`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 "
+              viewBox="0 0 20 20"
+              fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="text-xs">{upvoteState.length}</span>
+          </button>
+          <button
+            onClick={handleDownvote}
+            className={`${
+              downvoteState.includes(user?.uid)
+                ? 'text-[#000] font-bold'
+                : 'hover:text-[#000] hover:font-bold ease-linear duration-100 text-gray'
+            }`}>
+            <span className="text-xs">{downvoteState.length}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       {replies.length > 0 && (

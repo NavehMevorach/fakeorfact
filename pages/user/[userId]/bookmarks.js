@@ -1,7 +1,9 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import Feed from '../../../components/Feed'
 import { getUserBookmarks } from './../../../api'
 function Bookmarks({ posts }) {
+  const [bookmarkedPosts, setBookmarkedPosts] = useState(posts)
   return (
     <>
       <Head>
@@ -9,7 +11,7 @@ function Bookmarks({ posts }) {
         <meta name="description" content="Fake or Fact" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Feed posts={posts} isUserPage={true} />
+      <Feed posts={bookmarkedPosts} isUserPage={true} />
     </>
   )
 }
@@ -21,7 +23,7 @@ export const getServerSideProps = async (ctx) => {
   } = ctx
   const posts = await getUserBookmarks(userId)
   posts.forEach((post) => {
-    post.timestamp = post.timestamp.toDate().toDateString()
+    post.timestamp = post.timestamp.toDate().toString()
   })
 
   return {
