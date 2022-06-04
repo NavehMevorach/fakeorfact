@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import Moment from 'react-moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
