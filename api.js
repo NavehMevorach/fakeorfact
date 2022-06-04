@@ -381,3 +381,7 @@ export async function checkIfDocExists(collection, docId) {
     return false
   }
 }
+
+export function getFirebaseTimestamp() {
+  return serverTimestamp()
+}

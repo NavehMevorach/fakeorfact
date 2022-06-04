@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { useAuth } from './../../auth/AuthContext'
 import { Avatar } from '@mui/material'
 import SubmitPost from './SubmitPost'
-import { addPost, addImageToPost } from './../../api'
-import { serverTimestamp } from '@firebase/firestore'
+import { addPost, addImageToPost, getFirebaseTimestamp } from './../../api'
 
 function AddPost({ setCurrentPosts }) {
   const { user } = useAuth()
@@ -66,7 +65,7 @@ function AddPost({ setCurrentPosts }) {
       comments: [],
       fake: [],
       fact: [],
-      timestamp: serverTimestamp(),
+      timestamp: getFirebaseTimestamp(),
     }
     const postId = await addPost(post)
     if (postId) {

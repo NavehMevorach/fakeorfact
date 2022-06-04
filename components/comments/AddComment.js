@@ -5,8 +5,7 @@ import Link from 'next/link'
 import { Avatar } from '@mui/material'
 import { useAuth } from '../../auth/AuthContext'
 import CommentSubmitForm from './CommentSubmitForm'
-import { addComment } from './../../api'
-import { serverTimestamp } from '@firebase/firestore'
+import { addComment, getFirebaseTimestamp } from './../../api'
 
 function AddComment({ setComments }) {
   const router = useRouter()
@@ -41,7 +40,7 @@ function AddComment({ setComments }) {
       upvote: [],
       downvote: [],
       parent: null,
-      timestamp: serverTimestamp(),
+      timestamp: getFirebaseTimestamp(),
     }
     const commentId = await addComment(comment)
     if (commentId) {
