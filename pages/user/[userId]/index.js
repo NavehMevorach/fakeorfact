@@ -1,5 +1,6 @@
 import { Avatar } from '@mui/material'
 import { useState } from 'react'
+import { useAuth } from '../../../auth/AuthContext'
 import Feed from '../../../components/Feed'
 import {
   getUserPosts,
@@ -8,8 +9,10 @@ import {
   getUserComments,
 } from './../../../api'
 function User({ user, posts, comments }) {
+  const authUser = useAuth()
   const [file, setFile] = useState()
   const [isVerified, setIsVerified] = useState(user.verified)
+
   async function handleFile(e) {
     setFile(e.target.files[0])
     // Change user to verify
@@ -49,7 +52,7 @@ function User({ user, posts, comments }) {
         <p className="text-gray">{`Joined at ${user.joinedAt.slice(4, 15)}`}</p>
         {isVerified ? (
           <p className="text-[#24a0ed] ml-auto">Verified</p>
-        ) : (
+        ) : authUser.user?.uid === user.uid ? (
           <div className="ml-auto cursor-pointer flex relative">
             <input
               type="file"
@@ -60,6 +63,12 @@ function User({ user, posts, comments }) {
             <button className="w-full h-full text-[#24a0ed] cursor-pointer">
               Upload Student ID
             </button>
+          </div>
+        ) : (
+          <div className="ml-auto flex relative">
+            <p className="w-full h-full text-[#ed4924] font-bold">
+              Not verified
+            </p>
           </div>
         )}
       </div>

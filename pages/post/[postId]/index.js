@@ -86,17 +86,32 @@ function PostPage({ post, comments }) {
         </div>
         <div className="md:px-5 px-8 ">
           <div className="flex items-center justify-center pt-4 space-x-3">
-            <button
-              className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
-                userVote === 'fake' && 'bg-black text-white'
-              }`}
-              onClick={handleFake}>{`${fakeVotes} Fake`}</button>
+            {user ? (
+              <button
+                className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
+                  userVote === 'fake' && 'bg-black text-white'
+                }`}
+                onClick={handleFake}>{`${fakeVotes} Fake`}</button>
+            ) : (
+              <p
+                className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
+                  userVote === 'fake' && 'bg-black text-white'
+                }`}>{`${fakeVotes} Fake`}</p>
+            )}
+
             <Fakeometer fakeAmount={fakeVotes} factAmount={factVotes} />
-            <button
-              className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
-                userVote === 'fact' && 'bg-black text-white'
-              }`}
-              onClick={handleFact}>{`${factVotes} Fact`}</button>
+            {user ? (
+              <button
+                className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
+                  userVote === 'fact' && 'bg-black text-white'
+                }`}
+                onClick={handleFact}>{`${factVotes} Fact`}</button>
+            ) : (
+              <p
+                className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
+                  userVote === 'fact' && 'bg-black text-white'
+                }`}>{`${factVotes} Fact`}</p>
+            )}
           </div>
           <a className="block cursor-pointer text-sm max-w-sm truncate ... space-x-3 text-gray hover:text-black ease mt-6">
             <span>🔗</span>

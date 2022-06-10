@@ -24,7 +24,6 @@ function Post({
 }) {
   const router = useRouter()
   const { user } = useAuth()
-
   function handlePostClick(e) {
     router.push(`/post/${postId}`)
   }

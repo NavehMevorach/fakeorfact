@@ -2,7 +2,6 @@ import Head from 'next/head'
 import nookies from 'nookies'
 import Feed from '../components/Feed'
 import { getInitialPosts, getFiveUsers } from './../api'
-// import { verifyIdToken } from '../firebaseAdmin'
 
 export default function Home({ posts, topUsers }) {
   return (
