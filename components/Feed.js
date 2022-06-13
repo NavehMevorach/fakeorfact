@@ -8,14 +8,16 @@ import { getNextPost, getUser } from './../api'
 function Feed({ posts, isUserPage = false }) {
   const [currentPosts, setCurrentPosts] = useState(posts)
   const [bookmarkedPosts, setBookmarkedPosts] = useState([])
+  const [isVerified, setIsVerified] = useState(false)
   const [lastPost, setLastPost] = useState(1)
   const { user } = useAuth()
 
   useEffect(() => {
     // Fetch Bookmark data
     async function fetchBookmarks(uid) {
-      const { bookmarks } = await getUser(uid)
+      const { bookmarks, verified } = await getUser(uid)
       setBookmarkedPosts((prevState) => prevState.concat(bookmarks))
+      setIsVerified(verified)
     }
     if (user) {
       fetchBookmarks(user.uid)
@@ -33,9 +35,10 @@ function Feed({ posts, isUserPage = false }) {
     })
     setCurrentPosts((prevPosts) => prevPosts.concat(newPosts))
   }
+  console.log(user)
   return (
     <div className="text-center">
-      {user?.verified && !isUserPage && (
+      {user && isVerified && !isUserPage && (
         <AddPost setCurrentPosts={setCurrentPosts} />
       )}
       <FiltersBar />
