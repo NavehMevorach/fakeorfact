@@ -89,9 +89,9 @@ function Post({
           </div>
         </div>
         <div className="flex items-center justify-center pt-4 md:pl-0 ml-11 space-x-3">
-          <div>{`${fake.length} Fake`}</div>
+          <div>{`${fake.length} Bust`}</div>
           <Fakeometer fakeAmount={fake.length} factAmount={fact.length} />
-          <div>{`${fact.length} Fact`}</div>
+          <div>{`${fact.length} Trust`}</div>
         </div>
       </div>
       {user && (

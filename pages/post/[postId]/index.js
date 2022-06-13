@@ -91,12 +91,12 @@ function PostPage({ post, comments }) {
                 className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
                   userVote === 'fake' && 'bg-black text-white'
                 }`}
-                onClick={handleFake}>{`${fakeVotes} Fake`}</button>
+                onClick={handleFake}>{`${fakeVotes} Bust`}</button>
             ) : (
               <p
                 className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
                   userVote === 'fake' && 'bg-black text-white'
-                }`}>{`${fakeVotes} Fake`}</p>
+                }`}>{`${fakeVotes} Bust`}</p>
             )}
 
             <Fakeometer fakeAmount={fakeVotes} factAmount={factVotes} />
@@ -105,12 +105,12 @@ function PostPage({ post, comments }) {
                 className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
                   userVote === 'fact' && 'bg-black text-white'
                 }`}
-                onClick={handleFact}>{`${factVotes} Fact`}</button>
+                onClick={handleFact}>{`${factVotes} Trust`}</button>
             ) : (
               <p
                 className={`border border-light-gray rounded-md px-4 py-2 text-sm shadow-sm font-medium ${
                   userVote === 'fact' && 'bg-black text-white'
-                }`}>{`${factVotes} Fact`}</p>
+                }`}>{`${factVotes} Trust`}</p>
             )}
           </div>
           <a className="block cursor-pointer text-sm max-w-sm truncate ... space-x-3 text-gray hover:text-black ease mt-6">

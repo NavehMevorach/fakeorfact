@@ -35,7 +35,9 @@ function Feed({ posts, isUserPage = false }) {
   }
   return (
     <div className="text-center">
-      {user && !isUserPage && <AddPost setCurrentPosts={setCurrentPosts} />}
+      {user?.verified && !isUserPage && (
+        <AddPost setCurrentPosts={setCurrentPosts} />
+      )}
       <FiltersBar />
       {currentPosts.map((data, i) => (
         <Post
