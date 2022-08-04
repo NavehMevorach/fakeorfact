@@ -26,30 +26,37 @@ function User({ user, posts, comments }) {
       <div className="flex p-5 border-b border-light-gray items-end">
         <Avatar src={user.photoURL} className="h-20 w-20" />
         <div className="flex flex-col ml-3 font-bold">
-          <span>{user.name}</span>
-          <span className="text-xs">{`@${user.name}`}</span>
+          <span className="dark:text-white">{user.name}</span>
+          <span className="text-xs dark:text-white">{`@${user.name}`}</span>
         </div>
         <div className="ml-auto flex space-x-3">
           <button
-            className="border border-light-gray rounded-md px-3 py-1 text-sm shadow-sm font-medium text-gray/50"
+            className="border dark:text-white/50 dark:border-white/50 border-light-gray rounded-md px-3 py-1 text-sm shadow-sm font-medium text-gray/50"
             disabled={true}>
             Message
           </button>
           <button
-            className="border border-light-gray rounded-md px-3 py-1 text-sm shadow-sm font-medium text-gray/50"
+            className="border dark:text-white/50 dark:border-white/50 border-light-gray rounded-md px-3 py-1 text-sm shadow-sm font-medium text-gray/50"
             disabled={true}>
             Follow
           </button>
         </div>
       </div>
       <div className="flex p-5 text-sm justify-start items-center border-b border-light-gray w-full">
-        <p className="text-gray mr-3">
-          <span className="text-black">{posts.length}</span> Posts
+        <p className="text-gray mr-3 dark:text-white/50">
+          <span className="text-black dark:text-white/50">{posts.length}</span>{' '}
+          Posts
         </p>
-        <p className="text-gray mr-3">
-          <span className="text-black">{comments.length}</span> Comments
+        <p className="text-gray mr-3 dark:text-white/50">
+          <span className="text-black dark:text-white/50">
+            {comments.length}
+          </span>{' '}
+          Comments
         </p>
-        <p className="text-gray">{`Joined at ${user.joinedAt.slice(4, 15)}`}</p>
+        <p className="text-gray dark:text-white/50">{`Joined at ${user.joinedAt.slice(
+          4,
+          15
+        )}`}</p>
         {isVerified ? (
           <p className="text-[#24a0ed] ml-auto">Verified</p>
         ) : authUser.user?.uid === user.uid ? (

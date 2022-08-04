@@ -29,6 +29,10 @@ function AddComment({ setComments }) {
     e.preventDefault()
 
     // TODO: Run Validations
+    if (commentBody.length === 0) {
+      alert("Comment can't be empty")
+      return
+    }
 
     const comment = {
       uid: user.uid,

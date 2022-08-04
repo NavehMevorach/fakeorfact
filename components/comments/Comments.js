@@ -14,7 +14,7 @@ function Comments({ comments, setComments }) {
   }
   return (
     <div className="relative w-full text-left">
-      <h2 className="text-lg font-semibold mb-7">{`Comments ${'0'}`}</h2>
+      <h2 className="dark:text-white text-lg font-semibold mb-7">{`Comments ${'0'}`}</h2>
       {user && (
         <div>
           <AddComment setComments={setComments} />

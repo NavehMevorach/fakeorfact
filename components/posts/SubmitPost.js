@@ -20,7 +20,7 @@ function SubmitPost({
       <div className="flex w-full justify-center items-center mb-5">
         <Avatar src={user?.photoURL} />
         <input
-          className="flex-1 ml-3 py-2 px-1 focus:bordr-0 focus:outline-none"
+          className="dark:bg-transparent dark:border dark:border-white dark:rounded-sm flex-1 ml-3 py-2 px-4 focus:bordr-0 focus:outline-none"
           placeholder="Enter The Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -28,7 +28,7 @@ function SubmitPost({
         <svg
           onClick={handleClose}
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 cursor-pointer"
+          className="h-6 w-6 cursor-pointer dark:fill-white ml-3"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -41,14 +41,14 @@ function SubmitPost({
         </svg>
       </div>
       <input
-        className="w-full border border-light-gray rounded-lg font-mono leading-loose tracking-tighter outline-none focus:outline-none sm:px-3 sm:py-3 py-3 sm:text-sm text-gray-600 mb-5"
+        className=" dark:bg-transparent dark:border dark:border-white dark:rounded-sm w-full border border-light-gray rounded-lg font-mono leading-loose tracking-tighter outline-none focus:outline-none sm:px-3 sm:py-3 py-3 sm:text-sm text-gray-600 mb-5"
         placeholder="Enter The Link "
         value={url}
         onChange={(e) => setUrl(e.target.value)}
       />
       <textarea
         placeholder="Explain... (Optional)"
-        className="w-full border border-light-gray rounded-lg font-mono leading-loose tracking-tighter outline-none focus:outline-none sm:px-3 sm:py-3 py-3 sm:text-sm text-gray-600 h-72"
+        className="dark:bg-transparent dark:border dark:border-white dark:rounded-sm w-full border border-light-gray rounded-lg font-mono leading-loose tracking-tighter outline-none focus:outline-none sm:px-3 sm:py-3 py-3 sm:text-sm text-gray-600 h-72"
         value={postBody}
         onChange={(e) => setPostBody(e.target.value)}></textarea>
       <div className="relative flex items-center h-full px-4 font-medium text-gray-600 cursor-pointer hover:bg-gray-100">

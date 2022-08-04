@@ -63,7 +63,7 @@ function Comment({
         <div className="relative w-full border border-light-gray rounded-lg font-mono leading-loose tracking-tighter outline-none focus:outline-none sm:px-3 sm:py-3 py-3 sm:text-sm text-gray-600 ml-3">
           <div className="flex space-x-1">
             <Link href={`/user/${uid}`}>
-              <a className="text-sm font-medium text-text leading-none hover:underline ease">
+              <a className="dark:text-white text-sm font-medium text-text leading-none hover:underline ease">
                 {username}
               </a>
             </Link>
@@ -72,7 +72,7 @@ function Comment({
               {timestamp}
             </Moment>
           </div>
-          <div className="mt-3">{commentBody}</div>
+          <div className="dark:text-white mt-3">{commentBody}</div>
           <div className="absolute bottom-1 right-2 flex space-x-3 text-xs font-bold font-mono">
             <span
               onClick={handleEdit}
@@ -91,8 +91,8 @@ function Comment({
             onClick={handleUpvote}
             className={`${
               upvoteState.includes(user?.uid)
-                ? 'text-[#000] font-bold'
-                : 'hover:text-[#000] hover:font-bold ease-linear duration-100 text-gray'
+                ? 'text-[#000] font-bold dark:text-white'
+                : 'hover:text-[#000] dark:hover:text-white/50 hover:font-bold ease-linear duration-100 text-gray'
             }`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -111,8 +111,8 @@ function Comment({
             onClick={handleDownvote}
             className={`${
               downvoteState.includes(user?.uid)
-                ? 'text-[#000] font-bold'
-                : 'hover:text-[#000] hover:font-bold ease-linear duration-100 text-gray'
+                ? 'text-[#000] font-bold dark:text-white'
+                : 'hover:text-[#000] dark:hover:text-white/50 hover:font-bold ease-linear duration-100 text-gray'
             }`}>
             <span className="text-xs">{downvoteState.length}</span>
             <svg

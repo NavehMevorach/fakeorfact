@@ -10,8 +10,8 @@ function NavLink({ text, emoji, dest, intended = false }) {
       <a
         className={`${
           isActive
-            ? 'text-black font-bold'
-            : 'font-medium text-black/70 hover:text-black'
+            ? 'text-black font-bold dark:text-white'
+            : 'font-medium dark:text-white/70 text-black/70 hover:text-black dark:hover:text-white'
         } flex  items-center space-x-1.5 group text-sm`}>
         <span className="text-black">{emoji}</span>
         <span>{text}</span>
@@ -20,7 +20,7 @@ function NavLink({ text, emoji, dest, intended = false }) {
             src="/assets/icons/chevron_right.svg"
             height="20px"
             width="20px"
-            className="ease duration-100 opacity-0 group-hover:opacity-100 -translate-x-1/2 group-hover:translate-x-0 translate-y-[0.5px]"
+            className="ease duration-100 opacity-0 group-hover:opacity-100 -translate-x-1/2 group-hover:translate-x-0 translate-y-[0.5px] "
           />
         )}
       </a>

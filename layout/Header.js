@@ -9,6 +9,7 @@ import { auth, provider } from '../firebase'
 import { addUser, checkIfDocExists } from '../api'
 import { useAuth } from './../auth/AuthContext'
 import { useRouter } from 'next/router'
+import { darkMode } from '../tailwind.config'
 
 function Header() {
   const router = useRouter()
@@ -18,6 +19,7 @@ function Header() {
   const openLogin = () => setLoginModalOpen(true)
   const closeSignup = () => setSignupModalOpen(false)
   const openSignup = () => setSignupModalOpen(true)
+  const [darkmode, setDarkmode] = useState(false)
   const { user } = useAuth()
 
   function switchModals(action = 'closeLogin') {
@@ -48,31 +50,36 @@ function Header() {
   }
 
   return (
-    <header className="w-full fixed items-center transition-all transform ease duration-200 h-16 z-50 border-b border-light-gray bg-white">
+    <header className="w-full fixed items-center transition-all transform ease duration-200 h-16 z-50 border-b border-light-gray bg-white dark:bg-black">
       <div className="relative transition-width ease-out duration-200 z-20 justify-center h-full flex mx-auto px-5 lg:px-3 xl:px-0 w-full max-w-6xl flex-center">
         <div className="relative flex items-center justify-start h-full lg:w-[135px] flex-shrink-0">
           <Link href="/">
-            <a className="relative w-20 h-10 overflow-hidden">
-              <Image
-                src="/assets/img/logo.png"
-                layout="fill"
-                objectFit="contain"
-              />
+            <a className="dark:text-white relative w-30 h-10 overflow-hidden font-bold font-mono text-[24px]">
+              BusTrust
             </a>
           </Link>
         </div>
         <div className="relative flex items-center w-full pl-5 lg:pl-1">
-          <div className="text-xs w-full transition-all ease-out duration-200 flex items-center justify-between cursor-pointer h-9 rounded-full px-4 text-gray bg-light-gray hover:bg-gray/10 ml-0">
+          {/* <div className="text-xs w-full transition-all ease-out duration-200 flex items-center justify-between cursor-pointer h-9 rounded-full px-4 text-gray bg-light-gray hover:bg-gray/10 ml-0">
             <span>Search</span>
             <span className="hidden sm:block leading-4 py-0.5 px-1 ml-1.5 border border-gray-300 rounded-lg text-xs no-underline space-x-1">
               <kbd>⌘</kbd>
               <kbd>K</kbd>
             </span>
-          </div>
+          </div> */}
         </div>
+
         {user ? (
           <div className="relative flex items-center justify-end flex-shrink-0 lg:w-80">
-            <button className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium text-black transition duration-300 ease-out border text-xs rounded-full  mr-4 group">
+            <button
+              className="dark:text-white text-md mr-5"
+              onClick={() => {
+                document.querySelector('body').classList.toggle('dark')
+                setDarkmode(!darkmode)
+              }}>
+              {`${darkmode ? '🌙' : '☀️'}`}
+            </button>
+            <button className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium dark:text-white text-black transition duration-300 ease-out border dark:border-white text-xs rounded-full  mr-4 group">
               <span className="absolute flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +95,7 @@ function Header() {
                   />
                 </svg>
               </span>
-              <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform group-hover:translate-x-full ease">
+              <span className="absolute flex items-center justify-center w-full h-full dark:text-white text-black transition-all duration-300 transform group-hover:translate-x-full ease">
                 Post
               </span>
               <span className="relative invisible">Post</span>
@@ -99,14 +106,22 @@ function Header() {
           </div>
         ) : (
           <div className="relative flex items-center justify-end flex-shrink-0 lg:w-80">
+            <button
+              className="dark:text-white text-md mr-5"
+              onClick={() => {
+                document.querySelector('body').classList.toggle('dark')
+                setDarkmode(!darkmode)
+              }}>
+              {`${darkmode ? '🌙' : '☀️'}`}
+            </button>
             <motion.button
               onClick={() => (loginModalOpen ? closeLogin() : openLogin())}
-              className="flex items-center h-8 px-4 mr-2 text-xs font-medium text-gray bg-light-gray rounded-full cursor-pointer hover:bg-black hover:text-white">
+              className="flex items-center h-8 px-4 mr-2 text-xs font-medium dark:text-black text-gray bg-light-gray rounded-full cursor-pointer hover:bg-black dark:hover:bg-white dark:hover:text-black hover:text-white">
               Login
             </motion.button>
             <motion.button
               onClick={() => (signupModalOpen ? closeSignup() : openSignup())}
-              className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium text-black transition duration-300 ease-out border text-xs rounded-full group">
+              className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium text-black transition duration-300 ease-out border dark:border-white text-xs rounded-full group">
               <span className="absolute flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
                 <svg
                   className="w-4 h-4"
@@ -121,7 +136,7 @@ function Header() {
                     d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                 </svg>
               </span>
-              <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform group-hover:translate-x-full ease">
+              <span className="absolute flex items-center justify-center w-full h-full dark:text-white text-black transition-all duration-300 transform group-hover:translate-x-full ease">
                 Signup
               </span>
               <span className="relative invisible">Signup</span>

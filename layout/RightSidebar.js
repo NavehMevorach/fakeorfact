@@ -9,7 +9,7 @@ function RightSidebar() {
   }
 
   return (
-    <div className="lg:block hidden top-[75px] sticky max-h-screen overflow-y-hidden w-[500px] ml-4 my-4  border-x border-light-gray">
+    <div className="dark:bg-black lg:block hidden top-[75px] sticky max-h-screen overflow-y-hidden w-[500px] ml-4 my-4  border  border-light-gray">
       <div
         onClick={() => setIsSortOpen(!isSortOpen)}
         className="text-xs cursor-pointer py-4 px-5 justify-between flex items-center font-medium leading-6 text-gray-900 group">
@@ -25,7 +25,7 @@ function RightSidebar() {
             strokeWidth="2"
             d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
         </svg>
-        <span className="mr-auto">{`Sort By ${sortBy}`}</span>
+        <span className="mr-auto dark:text-white">{`Sort By ${sortBy}`}</span>
         <svg
           className={`w-3.5 h-3.5 ml-1 transition-all duration-300 transform stroke-current group-hover:opacity-100 text-gray-500 group-hover:text-black linear ${
             isSortOpen ? 'rotate-180' : 'rotate-0'
@@ -42,11 +42,13 @@ function RightSidebar() {
       <div
         className={`${
           isSortOpen ? 'flex h-full' : 'h-0 hidden'
-        } bg-light-gray transition-all ease-out duration-200 py-4 px-5  flex-wrap text-xs text-gray/80 overflow-hidden`}>
+        } bg-light-gray dark:bg-transparent transition-all ease-out duration-200 py-4 px-5  flex-wrap text-xs text-gray/80 overflow-hidden`}>
         <button
           onClick={() => changeSortBy('Latest')}
-          className={`w-full flex items-center group px-4 py-2 ${
-            sortBy === 'Latest' ? 'text-black' : 'hover:text-black'
+          className={` w-full flex items-center group px-4 py-2 ${
+            sortBy === 'Latest'
+              ? 'text-black dark:text-white'
+              : 'hover:text-black dark:hover:text-white'
           } `}>
           <svg
             className={`${
@@ -69,7 +71,9 @@ function RightSidebar() {
         <button
           onClick={() => changeSortBy('Oldest')}
           className={`w-full flex items-center group px-4 py-2 ${
-            sortBy === 'Oldest' ? 'text-black' : 'hover:text-black'
+            sortBy === 'Oldest'
+              ? 'text-black dark:text-white'
+              : 'hover:text-black dark:hover:text-white'
           } `}>
           <svg
             className={`${

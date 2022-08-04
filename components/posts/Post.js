@@ -42,7 +42,7 @@ function Post({
     <div className="relative z-10 flex flex-col ">
       <div
         onClick={handlePostClick}
-        className="w-full h-full realative z-10 cursor-pointer justify-between p-6 sm:p-8 sm:pt-12 duration-500 border-b border-light-gray hover:bg-light-gray ease bg-white space-y-3">
+        className="w-full h-full realative z-10 cursor-pointer justify-between p-6 sm:p-8 sm:pt-12 duration-500 border-b border-light-gray hover:bg-light-gray ease dark:bg-black dark:hover:bg-white/5 bg-white space-y-3">
         <div className="flex space-x-3">
           <Link href={`/user/${uid}/`} className="relative z-50">
             <a>
@@ -54,12 +54,14 @@ function Post({
               <div className="flex w-full items-center justify-between">
                 <div className="flex space-x-1">
                   <Link href={`/user/${uid}/`} className="relative z-50">
-                    <a className="text-sm font-medium text-text leading-none hover:underline ease">
+                    <a className="dark:text-white text-sm font-medium text-text leading-none hover:underline ease">
                       {username}
                     </a>
                   </Link>
                   <span className="text-xs text-gray">·</span>
-                  <Moment className="text-xs text-gray" fromNow>
+                  <Moment
+                    className="text-xs text-gray dark:text-white/50"
+                    fromNow>
                     {timestamp}
                   </Moment>
                 </div>
@@ -71,12 +73,14 @@ function Post({
                   />
                 </div> */}
               </div>
-              <h2 className="text-base font-medium theme-text line-clamp-2 leading-tight">
+              <h2 className="dark:text-white text-base font-medium theme-text line-clamp-2 leading-tight">
                 {title}
               </h2>
             </div>
-            <p className="text-sm text-gray/70 line-clamp-2">{postBody}</p>
-            <a className="block cursor-pointer text-sm max-w-sm truncate ... space-x-3 text-gray hover:text-black ease">
+            <p className="text-sm text-gray/70 dark:text-white/70 line-clamp-2">
+              {postBody}
+            </p>
+            <a className="block cursor-pointer text-sm max-w-sm truncate ... space-x-3 text-gray dark:text-white/50 dark:hover:text-white/80 hover:text-black ease">
               <span>🔗</span>
               <span>{url}</span>
             </a>
@@ -89,9 +93,9 @@ function Post({
           </div>
         </div>
         <div className="flex items-center justify-center pt-4 md:pl-0 ml-11 space-x-3">
-          <div>{`${fake.length} Bust`}</div>
+          <div className="dark:text-white">{`${fake.length} Bust`}</div>
           <Fakeometer fakeAmount={fake.length} factAmount={fact.length} />
-          <div>{`${fact.length} Trust`}</div>
+          <div className="dark:text-white">{`${fact.length} Trust`}</div>
         </div>
       </div>
       {user && (

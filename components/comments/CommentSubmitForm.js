@@ -24,7 +24,7 @@ function CommentSubmitForm({
       <div className="flex space-x-2 justify-end">
         <button
           onClick={handleClose}
-          className="flex mt-5 items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-black transition duration-150 ease-in-out bg-gray/20 rounded-md focus:outline-none ">
+          className="flex mt-5 items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-black transition duration-150 ease-in-out bg-gray/20 dark:bg-gray rounded-md focus:outline-none ">
           Cancel
         </button>
         <button className="flex mt-5 items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-black border border-gray-300 border-blue-600 rounded-md  focus:outline-none ">
