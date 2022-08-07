@@ -74,7 +74,7 @@ function Comment({
           </div>
           <div className="dark:text-white mt-3">{commentBody}</div>
           <div className="absolute bottom-1 right-2 flex space-x-3 text-xs font-bold font-mono">
-            <span
+            {/* <span
               onClick={handleEdit}
               className="cursor-pointer text-black/60 hover:text-black ease-linear duration-150">
               Edit
@@ -83,7 +83,7 @@ function Comment({
               onClick={handleDelete}
               className="cursor-pointer text-black/60 hover:text-black ease-linear duration-150">
               Delete
-            </span>
+            </span> */}
           </div>
         </div>
         <div className="flex flex-col justify-center items-center ml-3">
