@@ -89,28 +89,18 @@ function Header() {
               }}>
               {`${darkmode ? '🌙' : '☀️'}`}
             </button>
-            <button className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium dark:text-white text-black transition duration-300 ease-out border dark:border-white text-xs rounded-full  mr-4 group">
-              <span className="absolute flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#000"
-                  strokeWidth={2}>
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
+            <button
+              onClick={logout}
+              className="relative flex items-center justify-center h-8 px-4 overflow-hidden font-medium dark:text-white text-black transition duration-300 ease-out border dark:border-white text-xs rounded-full  mr-4 group">
+              <span className="absolute flex items-center justify-center w-full h-full text-black dark:text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
+                Logout
               </span>
               <span className="absolute flex items-center justify-center w-full h-full dark:text-white text-black transition-all duration-300 transform group-hover:translate-x-full ease">
-                Post
+                Logout
               </span>
               <span className="relative invisible">Post</span>
             </button>
-            <div onClick={logout} className="cursor-pointer">
+            <div className="cursor-pointer">
               <Avatar src={user.photoURL} />
             </div>
           </div>
