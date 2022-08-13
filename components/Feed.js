@@ -38,8 +38,12 @@ function Feed({ posts, isUserPage = false }) {
   console.log(user)
   return (
     <div className="text-center">
-      {user && isVerified && !isUserPage && (
-        <AddPost setCurrentPosts={setCurrentPosts} />
+      {!user ? (
+        <p>Only signed User can post</p>
+      ) : !isVerified ? (
+        <p>please verify your account</p>
+      ) : (
+        !isUserPage && <AddPost setCurrentPosts={setCurrentPosts} />
       )}
       <FiltersBar />
       {currentPosts.map((data, i) => (

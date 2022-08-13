@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Avatar } from '@mui/material'
@@ -9,10 +9,10 @@ import { auth, provider } from '../firebase'
 import { addUser, checkIfDocExists } from '../api'
 import { useAuth } from './../auth/AuthContext'
 import { useRouter } from 'next/router'
-import { darkMode } from '../tailwind.config'
 
 function Header() {
   const router = useRouter()
+  const [mode, setMode] = useState('light')
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [signupModalOpen, setSignupModalOpen] = useState(false)
   const closeLogin = () => setLoginModalOpen(false)
@@ -21,6 +21,15 @@ function Header() {
   const openSignup = () => setSignupModalOpen(true)
   const [darkmode, setDarkmode] = useState(false)
   const { user } = useAuth()
+
+  useEffect(() => {
+    if (mode === 'dark') {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+    localStorage.setItem('mode', mode)
+  }, [mode])
 
   function switchModals(action = 'closeLogin') {
     if (action === 'closeSignup') {
@@ -74,8 +83,9 @@ function Header() {
             <button
               className="dark:text-white text-md mr-5"
               onClick={() => {
-                document.querySelector('body').classList.toggle('dark')
-                setDarkmode(!darkmode)
+                // document.querySelector('body').classList.toggle('dark')
+                // setDarkmode(!darkmode)
+                setMode(mode === 'dark' ? 'light' : 'dark')
               }}>
               {`${darkmode ? '🌙' : '☀️'}`}
             </button>
